@@ -99,11 +99,11 @@ const Navbar: React.FC = () => {
             About
           </Link>
           <Link 
-            to="/contact" 
+            to="/specialization" 
             className="hover:text-blue-500 transition duration-300 py-2 w-full text-center"
             onClick={() => setIsOpen(false)}
           >
-            Contact
+            Specialization
           </Link>
           
           {!user ? (
