@@ -14,7 +14,9 @@ import Doctor from './components/Doctor'
 import Doctorbyid from './components/Doctorbyid'
 import BookAppointment from './components/Bookingpage'
 import Specialization from './components/Specialization'
-import Category from './components/category'
+import Category from './components/Category'
+import ContactUs from './components/ContactUs'
+import TermsAndCondition from './components/TermsAndCondition'
 
 
 
@@ -36,6 +38,9 @@ function App() {
         <Route path='/bookappointment/:doctorId' element={<BookAppointment/>}></Route>
         <Route path='/specialization' element={<Specialization/>}></Route>
         <Route path='/specialization/:specialization' element={<Category/>}></Route>
+
+ <Route path='/contactus' element={<ContactUs/>}></Route>
+ <Route path='/termsandcondition' element={<TermsAndCondition/>}></Route>
 
       
       {/* admin route  */}

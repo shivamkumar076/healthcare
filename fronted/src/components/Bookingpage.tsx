@@ -7,6 +7,12 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../utils/store";
 
 // Type definitions
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 interface doctor {
   email: string;
   role: string;
@@ -91,6 +97,32 @@ const BookAppointment: React.FC = () => {
     }
 
     try {
+
+          const res = await axiosInstance.post("/payment/create", {});
+          const {amount,keyId,currency,orderId,notes }=res.data
+          const options = {
+          key: keyId, // Replace with your Razorpay key
+          amount, // Amount in smallest currency unit (e.g., paise for INR)
+          currency,
+          order_id:orderId,
+          name: "Healthcare+",
+          description: "Appointment Booking",
+          handler: function (response: any) {
+            alert("Payment successful. Payment ID: " + response.razorpay_payment_id);
+          },
+          prefill: {
+            name: notes.firstName + " " + notes.lastName,
+            email: notes.email || "",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+
+
       const appointmentData = {
         doctorId,
         patientId: user?._id,
