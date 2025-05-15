@@ -60,6 +60,15 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+// Compound index for email (used in login)
+userSchema.index({ email: 1 });
+
+// If you often search doctors by specialization, add this:
+userSchema.index({ specialization: 1 }, { sparse: true });
+
+// For full name searches
+userSchema.index({ firstName: 1, lastName: 1 });
+
 userSchema.methods.getJWT = async function () {
   const user = this;
   const token = await JWT.sign(

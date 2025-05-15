@@ -59,5 +59,6 @@ appointmentSchema.index(
     { unique: true }
 );
 
-
+appointmentSchema.index({ patientId: 1, date: 1 });
+appointmentSchema.index({ doctorId: 1, date: 1 });
 module.exports = mongoose.model('Appointment', appointmentSchema);

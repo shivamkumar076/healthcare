@@ -158,33 +158,35 @@ router.get('/doctor/:id',async(req,res)=>{
     }
        
 });
-router.get('/doctor/:specialization',async(req,res)=>{
-    try{
-        const specializationdata=req.params;
-        const fetchdoctor=await User.find({specialization:specializationdata});
-        if(!fetchdoctor){
-           res.status(401).json({
-            message:"doctor data not available"
-          
-        })
 
-        }
-        res.status(200).json({
-            message:"data fetch succesfully",
-            data:fetchdoctor
-        })
 
-    }catch(err){
-        res.status(500).json({
-        message:"doctor fetch error",
-        error:err.message
+router.get('/specialization/:specialization', async (req, res) => {
+  try {
+    const {specialization} = req.params;
+    const fetchdoctor = await User.find({
+      specialization: specialization,
+      role: "doctor"
+    });
     
-        })
+    if (!fetchdoctor.length) {
+      return res.status(404).json({
+        message: "No doctors found with this specialization"
+      });
     }
-       
+    
+    return res.status(200).json({
+      message: "Doctors fetched successfully",
+      data: fetchdoctor
+    });
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({
+      message: err.message
+    });
+  }
 });
 
-router.delete('/deletedocto/:idr',userAuth, isAdminAuth,async()=>{
+router.delete('/deletedoctor/:id',userAuth, isAdminAuth,async()=>{
     try{
         const id=req.params.id;
         const data=User.findByIdAndDelete(id)

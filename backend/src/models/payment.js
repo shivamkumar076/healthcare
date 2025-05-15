@@ -1,23 +1,48 @@
 const mongoose = require("mongoose");
 const PaymentSschema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-  appointmentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Appointment",
-  },
-  amount: {
-    type: Number,
-  },
+   patientId:{
+    type:mongoose.Types.ObjectId,
+    ref:"User",
+    required:true
+   },
 
-  currency: {
-    type: String,
+   paymentId:{
+    type:String,
+   
   },
-  paymentProvider: "stripe" | "razorpay",
-  paymentStatus: "paid" | "failed",
-  transactionId: String,
-  createdAt: Date,
+  orderId:{
+    type:String,
+    required:true
+  },
+  status:{
+    type:String,
+    required:true
+  },
+  amount:{
+    type:Number,
+    required:true,
+
+  },
+  currency:{
+    type:String,
+    required:true,
+  },
+  receipt:{
+    type:String,
+    required:true,
+
+  },
+  notes:{
+    firstName:{
+      type:String,
+
+    },
+    lastName:{
+      type:String
+    }
+  },
+  currency:{
+    type:String
+  }
 });
 module.exports=mongoose.model('Payment',PaymentSschema);

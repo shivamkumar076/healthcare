@@ -19,6 +19,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/',require('./routes/auth'));
 app.use('/',require('./routes/doctorAuth'));
 app.use('/',require('./routes/appointmentroute'))
+app.use('/',require('./routes/payment'));
 
 
 
