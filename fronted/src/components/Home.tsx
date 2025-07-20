@@ -12,6 +12,7 @@ const Home: React.FC = () => {
       {!hideNavbar && <Navbar />}
       
       <main className="flex-1">
+       
         <Outlet />
       </main>
       

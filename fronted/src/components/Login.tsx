@@ -28,14 +28,14 @@ const [error, setError] = useState<string>('');
     });
     dispatch(adduser(res.data.data));
         if (res.data.data.role === 'isAdmin') {
-      navigate('/admin/dashboard');
+      navigate('/admin');
     } else if (res.data.data.role === 'doctor') {
       navigate('/doctor/dashboard');
     } else if (res.data.data.role) {
       navigate('/');
     }
-    }catch(err: any){
-      setError(err.response?.data?.message || "An unexpected error occurred")
+    }catch(err){
+      setError(err?.response?.data?.message || "An unexpected error occurred")
 
     }
    

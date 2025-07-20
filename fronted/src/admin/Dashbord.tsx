@@ -1,28 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUserMd, FaCalendarAlt, FaUsers, FaCog } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import axiosInstance from "../api/axios";
   interface Doctor {
   id: string;
-  name: string;
+  firstName: string;
+  lastName:string;
   specialization: string;
+  image:string
 }
 
 interface Patient {
   id: string;
-  name: string;
-  age: number;
+  firstName: string;
+  lastName:string;
+    age: number;
 }
 const Dashbord = () => {
      const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [patients, setPatients] = useState<Patient[]>([
-    { id: "1", name: "John Doe", age: 30 },
-    { id: "2", name: "Jane Smith", age: 25 },
   ]);
 
-  const [doctors, setDoctors] = useState<Doctor[]>([
-    { id: "1", name: "Dr. Alice", specialization: "Cardiology" },
-    { id: "2", name: "Dr. Bob", specialization: "Neurology" },
-  ]);
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+
+const fetchdata=async()=>{
+  const doctorlist=await axiosInstance.get<{data:Doctor[]}>('alldoctor');
+  console.log(doctorlist)
+  setDoctors(doctorlist.data.data);
+
+}
+
+const fetchpatientdata=async()=>{
+  const patientList=await axiosInstance.get<{data:Patient[]}>('patients');
+  console.log(patientList)
+  setPatients(patientList.data.data);
+
+}
+
+
+
+
+
+useEffect(()=>{
+fetchdata();
+fetchpatientdata();
+},[])
   return (
         <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {/* Mobile Navbar */}
@@ -100,9 +123,10 @@ const Dashbord = () => {
         )}
         {activeTab === "doctors" && (
           <div className="grid gap-4">
+            <Link className="bg-blue-700 p-2 text-white font-bold w-28 text-center" to={'/admin/doctorregister'}>Add Doctor</Link>
             {doctors.map((doc) => (
               <div key={doc.id} className="bg-white p-4 rounded shadow">
-                <h2 className="font-bold text-lg">{doc.name}</h2>
+                <h2 className="font-bold text-lg">{doc.firstName}</h2>
                 <p className="text-gray-600">Specialization: {doc.specialization}</p>
               </div>
             ))}
@@ -112,8 +136,8 @@ const Dashbord = () => {
           <div className="grid gap-4">
             {patients.map((pat) => (
               <div key={pat.id} className="bg-white p-4 rounded shadow">
-                <h2 className="font-bold text-lg">{pat.name}</h2>
-                <p className="text-gray-600">Age: {pat.age}</p>
+                <h2 className="font-bold text-lg">{pat.firstName}</h2>
+                <p className="text-gray-600"> {pat.lastName}</p>
               </div>
             ))}
           </div>

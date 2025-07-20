@@ -6,8 +6,8 @@ import type { PayloadAction } from '@reduxjs/toolkit'
     firstName:string,
     lastName:string,
     specialization:string,
-    aboutdoctor:String,
-    image:String,
+    aboutdoctor:string,
+    image:string,
     _id:string
  }
 const initialState: doctor[] | null = null as doctor[] | null ;
