@@ -119,5 +119,28 @@ router.get('/me', userAuth,isAdminAuth, async (req, res) => {
 
   res.json({ id: user._id, name: user.name, role: user.role });
 });
+// GET /api/users/patients
+router.get('/patients', userAuth, isAdminAuth, async (req, res) => {
+  try {
+    // Fetch all users with role 'patient'
+    const patients = await User.find({ role: 'patient' });
+
+    if (!patients || patients.length === 0) {
+      return res.status(404).json({
+        message: 'No patients found',
+      });
+    }
+
+    res.status(200).json({
+      message: 'Patients fetched successfully',
+      data: patients,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error fetching patients',
+      error: err.message,
+    });
+  }
+});
 
 module.exports=router;

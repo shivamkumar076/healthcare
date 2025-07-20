@@ -1,48 +1,55 @@
 const mongoose = require("mongoose");
-const PaymentSschema = new mongoose.Schema({
-   patientId:{
-    type:mongoose.Types.ObjectId,
-    ref:"User",
-    required:true
-   },
 
-   paymentId:{
-    type:String,
-   
+const PaymentSchema = new mongoose.Schema({
+  patientId: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+    required: true
   },
-  orderId:{
-    type:String,
-    required:true
+  paymentId: {
+    type: String,
+    // Will be populated after successful payment
   },
-  status:{
-    type:String,
-    required:true
+  orderId: {
+    type: String,
+    required: true
   },
-  amount:{
-    type:Number,
-    required:true,
-
+  status: {
+    type: String,
+    required: true,
+    enum: ["created", "authorized", "captured", "failed", "refunded"]
   },
-  currency:{
-    type:String,
-    required:true,
+  amount: {
+    type: Number,
+    required: true,
   },
-  receipt:{
-    type:String,
-    required:true,
-
+  currency: {
+    type: String,
+    required: true,
   },
-  notes:{
-    firstName:{
-      type:String,
-
+  receipt: {
+    type: String,
+    required: true,
+  },
+  notes: {
+    firstName: {
+      type: String,
     },
-    lastName:{
-      type:String
+    lastName: {
+      type: String
+    },
+    email: {
+      type: String
     }
   },
-  currency:{
-    type:String
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
-});
-module.exports=mongoose.model('Payment',PaymentSschema);
+}, { timestamps: true });
+
+module.exports = mongoose.model('Payment', PaymentSchema);

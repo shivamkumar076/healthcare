@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const appointmentSchema = new mongoose.Schema({
   doctorId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Doctor',
     required: true
   },
   patientId: {
@@ -15,50 +15,35 @@ const appointmentSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  timeSlot:{
-    type:String,
-    required:true,
+  timeSlot: {
+    type: String,
+    required: true
   },
-//   startTime: {
-//     type: String,
-//     required: true
-//   },
-//   endTime: {
-//     type: String,
-//     required: true
-//   },
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'cancelled', 'completed'],
+    enum: ['pending', 'confirmed', 'completed', 'cancelled'],
     default: 'pending'
   },
-//   paymentStatus: {
-//     type: String,
-//     enum: ['pending', 'paid', 'refunded'],
-//     default: 'pending'
-//   },
-//   paymentId: {
-//     type: String
-//   },
-//   fee: {
-//     type: Number,
-//     required: true
-//   },
+  paymentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Payment',
+    required: true
+  },
   notes: {
     type: String
   },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+}, { timestamps: true });
 
-  
-}, {
-  timestamps: true
-});
+// Compound index to ensure unique appointments
+appointmentSchema.index({ doctorId: 1, date: 1, timeSlot: 1 }, { unique: true });
 
-// Index to ensure a doctor cannot have multiple appointments at the same time
-appointmentSchema.index(
-    { doctorId: 1, date: 1, timeSlot: 1 },
-    { unique: true }
-);
-
-appointmentSchema.index({ patientId: 1, date: 1 });
-appointmentSchema.index({ doctorId: 1, date: 1 });
 module.exports = mongoose.model('Appointment', appointmentSchema);
+

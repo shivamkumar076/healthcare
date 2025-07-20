@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema(
     image:{
       type:String
     },
+    ispayment:{
+      type:Boolean,
+      default:false
+    },
     availableDays:{
       type:[String],
       default:['Monday','TuesDay','Wednesday','Thursday','Friday']
