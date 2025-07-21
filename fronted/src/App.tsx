@@ -17,7 +17,7 @@ import Category from "./components/Category";
 import ContactUs from "./components/ContactUs";
 import TermsAndCondition from "./components/TermsAndCondition";
 import Landingpage from "./components/Landingpage";
-import Doctoradd from "./admin/doctoradd";
+import Doctoradd from "./admin/Doctoradd";
 
 function App() {
   return (
